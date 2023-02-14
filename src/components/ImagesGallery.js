@@ -7,7 +7,7 @@ import { ReactComponent as LoadingIcon } from '../assets/loading_icon.svg';
 import reloadContext from '../context/reloadContext';
 // styles
 import "../App.css"
-
+import { getPhotos } from '../api/api';
 
 const ImagesGallery = () => {
 
@@ -19,21 +19,16 @@ const ImagesGallery = () => {
   const [imagesGallery, setImagesGallery] = useState([])
   const [page, setPage] = useState(randomPage)
 
-
-  const fetchData = () => {
-    axios.get(`https://picsum.photos/v2/list?page=${page}&limit=10`)
-      .then(function (response) {
-        setImagesGallery(imagesGallery => imagesGallery.concat(response.data))
-        setPage(randomPage)
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+  const fetchData = async () => {
+    const response = await getPhotos(page)
+    setImagesGallery(imagesGallery => imagesGallery.concat(response.data))
+    setPage(randomPage)
   }
 
-
   useEffect(() => {
+   
     fetchData()
+    
     if (reload) {
       setImagesGallery([])
       fetchData()
