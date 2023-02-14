@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+// @mui
+import { createTheme } from '@mui/material';
+import { ThemeProvider } from '@mui/styles';
+// components
+import AppBar from './components/AppBar'
+import ImagesGallery from './components/ImagesGallery'
+import ScrollToTopFab from "./components/ScrollToTop";
+import Header from "./components/Header";
+// context
+import reloadContext from './context/reloadContext';
 
-function App() {
+
+const App = () => {
+  const theme = createTheme()
+  const [reload, setReload] = useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <reloadContext.Provider value={{ reload, setReload }}>
+        <ThemeProvider theme={theme}>
+          <AppBar />
+          <Header />
+          <ScrollToTopFab />
+          <ImagesGallery />
+        </ThemeProvider>
+      </reloadContext.Provider>
     </div>
-  );
+  )
 }
 
 export default App;
